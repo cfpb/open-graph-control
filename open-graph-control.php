@@ -1,26 +1,26 @@
 <?php
 /**
- * Simple Open Graph implementation
+ * Post Meta As Open Graph
  *
  * A plugin that adds meta tags prepared with facebook open graph data pulled from
  * post metadata.
  *
- * @package	Simple-Open-Graph
+ * @package	Open-Graph-Control
  * @author Greg Boone <boone.greg@gmail.com>
  * @license Public Domain
  * @link http://greg.harmsboone.org
  * @copyright 2014 Greg Boone
  *
  * @wordpress-plugin
- * Plugin Name:	Simple Open Graph
- * Plugin URI: https://github.com/gboone/simple-open-graph
+ * Plugin Name:	Open Graph Control
+ * Plugin URI: https://github.com/gboone/open-graph-control
  * Description: Adds meta tags prepared with facebook open graph data
  * Version: 0.1
  * Author: Greg Boone
  * Author URI: http://greg.harmsboone.org
- * Text Domain: simple-open-graph
+ * Text Domain: open-graph-control
  * License: Public Domain
- * GitHub Plugin URI: https://github.com/gboone/Simple-Open-Graph
+ * GitHub Plugin URI: https://github.com/gboone/open-graph-control
  */
 namespace gboone;
 Class SimpleOpenGraph {
