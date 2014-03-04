@@ -25,7 +25,7 @@
 namespace gboone;
 Class SimpleOpenGraph {
 	public function __construct(){
-		add_action( 'plugins_loaded', array($p, 'build'), $priority = 10, $accepted_args = 1 );
+		add_action( 'plugins_loaded', array($this, 'build'), $priority = 10, $accepted_args = 1 );
 	}
 
 	public function open_graph() {
