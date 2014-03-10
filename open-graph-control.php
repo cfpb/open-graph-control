@@ -40,13 +40,15 @@ Class SimpleOpenGraph {
 
 		if ( $title ) {
 			?><meta property="og:title" content="<?php echo htmlspecialchars($title) ?>" /> <?php
+		} elseif ( is_front_page() ) {
+			?><meta property="og:title" content="<?php bloginfo('sitename') ?>"><?php
 		} else {
 			?><meta property="og:title" content="<?php wp_title('-',true,'right'); ?><?php bloginfo('name'); ?>" /><?php
 		}
 		if ( $image ) {
 			?><meta property="og:image" content="<?php echo urlencode($image); ?>" /> <?php
 		} else {
-			?><meta property="og:image" content="<?php bloginfo('template_directory'); echo '/_/img/logo.png'?>" /> <?php
+			?><meta property="og:image" content="<?php bloginfo('template_directory'); ?>/_/img/logo.png" /> <?php
 		}
 
 		?><meta property="og:url" content="<?php echo $url ?>" /><?php
@@ -71,7 +73,7 @@ Class SimpleOpenGraph {
 	}
 
 	public function build() {
-    	add_action( 'open_graph_data', array($this, 'open_graph') );
+    	add_action( 'wp_enqueue_scripts', array($this, 'open_graph') );
 	}
 }
 $p = new \gboone\SimpleOpenGraph();
