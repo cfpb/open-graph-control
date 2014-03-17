@@ -25,7 +25,7 @@
 namespace gboone;
 Class SimpleOpenGraph {
 
-	private $debug = true; 	// if true overrides the plugins_loaded action hook
+	private $debug = false; 	// if true overrides the plugins_loaded action hook
 							// use when unit-testing.
 	
 	function __construct(){
