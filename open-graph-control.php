@@ -24,19 +24,69 @@
  */
 namespace gboone;
 Class SimpleOpenGraph {
-	public function __construct(){
-		add_action( 'plugins_loaded', array($this, 'build'), $priority = 10, $accepted_args = 1 );
+
+	private $debug = true; 	// if true overrides the plugins_loaded action hook
+							// use when unit-testing.
+	
+	function __construct(){
+		if ( $this->debug == false ) {
+			add_action( 
+				'plugins_loaded', 
+				array($this, 'build'), 
+				$priority = 10, 
+				$accepted_args = 1 
+			);
+		}
+		define('TWITTER_USER', 'CFPB');
+		define('UTM_SOURCE', 'consumerfinance.gov');
 	}
 
+	public function get_utm_data($medium = 'web') {
+  		$utm_data['source'] = UTM_SOURCE;
+  		$utm_data['campaign'] = get_post_meta( $post->ID, $key = 'utm_campaign', $single = true );
+  		$utm_data['term'] = get_post_meta( $post->ID, $key = 'utm_term', $single = true );
+  		$utm_data['content'] = get_post_meta( $post->ID, $key = 'utm_content', $single = true );
+  		$utm_data['medium'] = $medium;
+  		return $utm_data;
+	}
+
+	public function utm_url($utm_data) {
+		$url = '';
+		if ( $utm_data['campaign'] ) {
+			$url .= "&utm_campaign=" . \urlencode($utm_data['campaign']);
+		}
+		if ( $utm_data['term'] ) {
+			$url .= "&utm_term=" . \urlencode($utm_data['term']);
+		}
+		if ( $utm_data['content'] ) {
+			$url .= "&utm_content=" . \urlencode($utm_data['content']);
+		}
+		return $url;
+	}
+
+	public function get_og_data($post) {
+		$og = array();
+		if ( $post ) {
+			$og['title'] = get_post_meta( 
+	  			$post->ID, 
+	  			$key = 'og_title', 
+	  			$single = true 
+	  		);
+
+	  		$og['image'] = get_post_meta( $post->ID, 'og_image', $single = true);
+		}
+		return($og);
+	}
 	public function open_graph() {
 	  	global $post;
-  		global $utm_data;
+  		$utm_data = get_utm_data($medium = 'facebook');
+  		$utm_source = '?utm_source=' . $utm_data['source'];
+  		$utm_medium = '&utm_medium=' . $utm_data['medium'];
 	  	if ( $post ) {
-	  		$title = get_post_meta( $post->ID, $key = 'og_title', $single = true );
-	  		$url = get_permalink( ) . '?utm_source=CFPB&utm_medium=facebook';
-	  		$url .= $this->open_graph_url();
-	  		$image = get_post_meta( $post->ID, $key = 'og_image', $single = true);
+	  		$url = get_permalink( ) . $utm_source . $utm_medium;
+	  		$url .= $this->utm_url($utm_data);
 		}
+		$og = get_og_data($post);
 
 		if ( $title ) {
 			?><meta property="og:title" content="<?php echo htmlspecialchars($title) ?>" /> <?php
@@ -54,26 +104,41 @@ Class SimpleOpenGraph {
 		?><meta property="og:url" content="<?php echo $url ?>" /><?php
 	}
 
-	public function open_graph_url() {
-		$url = '';
+	public function twitter_data( $post_id ) {
+		$tweet['text'] = get_post_meta( $post_id, 'twtr_text', $single = true);
+		$tweet['related'] = get_post_meta( $post_id, 'twtr_rel', $single = true );
+		$tweet['lang'] = get_post_meta( $post_id, 'twtr_lang', $single = true );
+		$tweet['hastags'] = get_post_meta( $post_id, 'twtr_hash', $single = true);
+		return $tweet;
+	}
+
+	public function tweet_url() {
 		global $post;
-  		$campaign = get_post_meta( $post->ID, $key = 'utm_campaign', $single = true );
-  		$term = get_post_meta( $post->ID, $key = 'utm_term', $single = true );
-  		$content = get_post_meta( $post->ID, $key = 'utm_content', $single = true );
-		if ( $campaign ) {
-			$url .= "&utm_campaign=" . \urlencode($campaign);
+		$utm = get_utm_data('twitter');
+		$utm_url = utm_url($utm);
+		$user = TWITTER_USER;
+		$tweet = twitter_data($post->ID);
+		$count_url = the_permalink();
+		$share_url = 'http://twitter.com/share/?via=' . $user . '&counturl=' . $count_url;
+		if ( $tweet['text'] ) {
+			$share_url .= '&text=' . $tweet['text'];
 		}
-		if ( $term ) {
-			$url .= "&utm_term=" . \urlencode($term);
+		if ( $tweet['related'] ) {
+			$share_url .= '&via=' . $tweet['related'];
 		}
-		if ( $content ) {
-			$url .= "&utm_content=" . \urlencode($content);
+		if ( $tweet['lang'] ) {
+			$share_url .= '&lang=' . $tweet['lang'];
 		}
-		return $url;
+		if ( $tweet['hashtags'] ) {
+			$share_url .= '&hashtags=' . $tweet['hashtags'];
+		}
+		$share_url .= $utm_url;
+		return $share_url;
 	}
 
 	public function build() {
     	add_action( 'wp_enqueue_scripts', array($this, 'open_graph') );
+    	add_action( 'tweet_url', array($this, 'tweet_button' ) );
 	}
 }
 $p = new \gboone\SimpleOpenGraph();
