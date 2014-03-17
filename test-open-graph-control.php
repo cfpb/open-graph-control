@@ -1,7 +1,6 @@
 <?php
 class testOpenGraphControl extends PHPUnit_Framework_TestCase {
 	function setUp() {
-		\WP_Mock\EventManager::callback('plugins_loaded', 'action');
 		parent::setUp();
 		\WP_Mock::setUp();
 	}

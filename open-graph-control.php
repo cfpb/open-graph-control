@@ -25,18 +25,7 @@
 namespace gboone;
 Class SimpleOpenGraph {
 
-	private $debug = false; 	// if true overrides the plugins_loaded action hook
-							// use when unit-testing.
-	
 	function __construct(){
-		if ( $this->debug == false ) {
-			add_action( 
-				'plugins_loaded', 
-				array($this, 'build'), 
-				$priority = 10, 
-				$accepted_args = 1 
-			);
-		}
 		define('TWITTER_USER', 'CFPB');
 		define('UTM_SOURCE', 'consumerfinance.gov');
 	}
@@ -142,4 +131,5 @@ Class SimpleOpenGraph {
 	}
 }
 $p = new \gboone\SimpleOpenGraph();
+add_action( 'plugins_loaded', array($p, 'build'));
 ?>
