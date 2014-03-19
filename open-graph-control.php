@@ -111,9 +111,13 @@ Class SimpleOpenGraph {
 		$share_url = 'http://twitter.com/share/?via=' . $user . '&counturl=' . $count_url;
 		if ( $tweet['text'] ) {
 			$share_url .= '&text=' . $tweet['text'];
+		} else {
+			$share_url .= '&text=' . urlencode(the_title_attribute());
 		}
 		if ( $tweet['related'] ) {
-			$share_url .= '&via=' . $tweet['related'];
+			$share_url .= '&related=' . $tweet['related'];
+		} else {
+			$share_url .= '&related=' . TWITTER_USER;
 		}
 		if ( $tweet['lang'] ) {
 			$share_url .= '&lang=' . $tweet['lang'];
@@ -127,7 +131,6 @@ Class SimpleOpenGraph {
 
 	public function build() {
     	add_action( 'wp_enqueue_scripts', array($this, 'open_graph') );
-    	add_action( 'tweet_url', array($this, 'tweet_button' ) );
 	}
 }
 $p = new \gboone\SimpleOpenGraph();
