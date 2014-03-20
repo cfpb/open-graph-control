@@ -26,11 +26,10 @@ namespace gboone;
 Class SimpleOpenGraph {
 
 	function __construct(){
-		define('TWITTER_USER', 'CFPB');
-		define('UTM_SOURCE', 'consumerfinance.gov');
+		
 	}
 
-	public function get_utm_data($medium = 'web') {
+	public function get_utm_data($medium = 'web', $post) {
   		$utm_data['source'] = UTM_SOURCE;
   		$utm_data['campaign'] = get_post_meta( $post->ID, $key = 'utm_campaign', $single = true );
   		$utm_data['term'] = get_post_meta( $post->ID, $key = 'utm_term', $single = true );
@@ -64,27 +63,27 @@ Class SimpleOpenGraph {
 
 	  		$og['image'] = get_post_meta( $post->ID, 'og_image', $single = true);
 		}
-		return($og);
+		return $og;
 	}
 	public function open_graph() {
 	  	global $post;
-  		$utm_data = get_utm_data($medium = 'facebook');
+  		$utm_data = $this->get_utm_data($medium = 'facebook', $post);
   		$utm_source = '?utm_source=' . $utm_data['source'];
   		$utm_medium = '&utm_medium=' . $utm_data['medium'];
 	  	if ( $post ) {
 	  		$url = get_permalink( ) . $utm_source . $utm_medium;
 	  		$url .= $this->utm_url($utm_data);
 		}
-		$og = get_og_data($post);
+		$og = $this->get_og_data($post);
 
-		if ( $title ) {
+		if ( $og['title'] ) {
 			?><meta property="og:title" content="<?php echo htmlspecialchars($title) ?>" /> <?php
 		} elseif ( is_front_page() ) {
 			?><meta property="og:title" content="<?php bloginfo('sitename') ?>"><?php
 		} else {
 			?><meta property="og:title" content="<?php wp_title('-',true,'right'); ?><?php bloginfo('name'); ?>" /><?php
 		}
-		if ( $image ) {
+		if ( $og['image'] ) {
 			?><meta property="og:image" content="<?php echo urlencode($image); ?>" /> <?php
 		} else {
 			?><meta property="og:image" content="<?php bloginfo('template_directory'); ?>/_/img/logo.png" /> <?php
@@ -97,17 +96,17 @@ Class SimpleOpenGraph {
 		$tweet['text'] = get_post_meta( $post_id, 'twtr_text', $single = true);
 		$tweet['related'] = get_post_meta( $post_id, 'twtr_rel', $single = true );
 		$tweet['lang'] = get_post_meta( $post_id, 'twtr_lang', $single = true );
-		$tweet['hastags'] = get_post_meta( $post_id, 'twtr_hash', $single = true);
+		$tweet['hashtags'] = get_post_meta( $post_id, 'twtr_hash', $single = true);
 		return $tweet;
 	}
 
 	public function tweet_url() {
 		global $post;
-		$utm = get_utm_data('twitter');
-		$utm_url = utm_url($utm);
+		$utm = $this->get_utm_data('twitter', $post);
+		$utm_url = $this->utm_url($utm);
 		$user = TWITTER_USER;
-		$tweet = twitter_data($post->ID);
-		$count_url = the_permalink();
+		$tweet = $this->twitter_data($post->ID);
+		$count_url = get_permalink();
 		$share_url = 'http://twitter.com/share/?via=' . $user . '&counturl=' . $count_url;
 		if ( $tweet['text'] ) {
 			$share_url .= '&text=' . $tweet['text'];
@@ -126,10 +125,12 @@ Class SimpleOpenGraph {
 			$share_url .= '&hashtags=' . $tweet['hashtags'];
 		}
 		$share_url .= $utm_url;
-		return $share_url;
+		echo $share_url;
 	}
 
 	public function build() {
+		define('TWITTER_USER', 'CFPB');
+		define('UTM_SOURCE', 'consumerfinance.gov');
     	add_action( 'wp_enqueue_scripts', array($this, 'open_graph') );
 	}
 }
