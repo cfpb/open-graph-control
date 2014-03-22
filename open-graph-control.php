@@ -25,12 +25,8 @@
 namespace gboone;
 Class SimpleOpenGraph {
 
-	function __construct(){
-		
-	}
-
 	public function get_utm_data($medium = 'web', $post) {
-  		$utm_data['source'] = UTM_SOURCE;
+  		$utm_data['source'] = defined(UTM_SOURCE) ? UTM_SOURCE : bloginfo('url');
   		$utm_data['campaign'] = get_post_meta( $post->ID, $key = 'utm_campaign', $single = true );
   		$utm_data['term'] = get_post_meta( $post->ID, $key = 'utm_term', $single = true );
   		$utm_data['content'] = get_post_meta( $post->ID, $key = 'utm_content', $single = true );
@@ -104,7 +100,7 @@ Class SimpleOpenGraph {
 		global $post;
 		$utm = $this->get_utm_data('twitter', $post);
 		$utm_url = $this->utm_url($utm);
-		$user = TWITTER_USER;
+		$user = defined(TWITTER_USER) ? TWITTER_USER : null;
 		$tweet = $this->twitter_data($post->ID);
 		$count_url = get_permalink();
 		$share_url = 'http://twitter.com/share/?via=' . $user . '&counturl=' . $count_url;
@@ -116,7 +112,7 @@ Class SimpleOpenGraph {
 		if ( $tweet['related'] ) {
 			$share_url .= '&related=' . $tweet['related'];
 		} else {
-			$share_url .= '&related=' . TWITTER_USER;
+			$share_url .= '&related=' . $user;
 		}
 		if ( $tweet['lang'] ) {
 			$share_url .= '&lang=' . $tweet['lang'];
