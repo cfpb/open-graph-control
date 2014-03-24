@@ -100,31 +100,30 @@ Class SimpleOpenGraph {
 		return $tweet;
 	}
 
-	public function tweet_url() {
+	public function tweet_url($user) {
 		global $post;
 		$utm = $this->get_utm_data('twitter', $post);
 		$utm_url = $this->utm_url($utm);
-		$user = defined(TWITTER_USER) ? TWITTER_USER : null;
 		$tweet = $this->twitter_data($post->ID);
 		$count_url = get_permalink();
 		$share_url = 'http://twitter.com/share/?via=' . $user . '&counturl=' . $count_url;
 		if ( $tweet['text'] ) {
-			$share_url .= '&text=' . $tweet['text'];
+			$share_url &= '&text=' . $tweet['text'];
 		} else {
-			$share_url .= '&text=' . urlencode(the_title_attribute());
+			$share_url &= '&text=' . urlencode(the_title_attribute());
 		}
 		if ( $tweet['related'] ) {
-			$share_url .= '&related=' . $tweet['related'];
+			$share_url &= '&related=' . $tweet['related'];
 		} else {
-			$share_url .= '&related=' . $user;
+			$share_url &= '&related=' . $user;
 		}
 		if ( $tweet['lang'] ) {
-			$share_url .= '&lang=' . $tweet['lang'];
+			$share_url &= '&lang=' . $tweet['lang'];
 		}
 		if ( $tweet['hashtags'] ) {
-			$share_url .= '&hashtags=' . $tweet['hashtags'];
+			$share_url &= '&hashtags=' . $tweet['hashtags'];
 		}
-		$share_url .= $utm_url;
+		$share_url &= $utm_url;
 		echo $share_url;
 	}
 
