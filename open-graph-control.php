@@ -57,7 +57,8 @@ Class SimpleOpenGraph {
 	  			$single = true 
 	  		);
 
-	  		$og['image'] = get_post_meta( $post->ID, 'og_image', $single = true);
+	  		$og['image'] = get_post_meta( $post->ID, 'og_image', true);
+			$og['description'] = get_post_meta( $post->ID, 'og_desc', true);
 		}
 		return $og;
 	}
@@ -73,16 +74,19 @@ Class SimpleOpenGraph {
 		$og = $this->get_og_data($post);
 
 		if ( $og['title'] ) {
-			?><meta property="og:title" content="<?php echo htmlspecialchars($title) ?>" /> <?php
+			?><meta property="og:title" content="<?php echo htmlspecialchars($og['title']) ?>" /> <?php
 		} elseif ( is_front_page() ) {
 			?><meta property="og:title" content="<?php bloginfo('sitename') ?>"><?php
 		} else {
 			?><meta property="og:title" content="<?php wp_title('-',true,'right'); ?><?php bloginfo('name'); ?>" /><?php
 		}
 		if ( $og['image'] ) {
-			?><meta property="og:image" content="<?php echo urlencode($image); ?>" /> <?php
+			?><meta property="og:image" content="<?php echo urlencode($og['image']); ?>" /> <?php
 		} else {
 			?><meta property="og:image" content="<?php bloginfo('template_directory'); ?>/_/img/logo.png" /> <?php
+		}
+		if ( $og['description'] ) {
+			?><meta property="og:description" content="<?php echo htmlspecialchars($og['description']) ?>" /> <?php
 		}
 
 		?><meta property="og:url" content="<?php echo $url ?>" /><?php
