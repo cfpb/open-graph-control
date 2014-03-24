@@ -26,7 +26,7 @@ namespace gboone;
 Class SimpleOpenGraph {
 
 	public function get_utm_data($medium = 'web', $post) {
-  		$utm_data['source'] = defined(UTM_SOURCE) ? UTM_SOURCE : bloginfo('url');
+  		$utm_data['source'] = defined(UTM_SOURCE) ? UTM_SOURCE : get_site_url('url');
   		$utm_data['campaign'] = get_post_meta( $post->ID, $key = 'utm_campaign', $single = true );
   		$utm_data['term'] = get_post_meta( $post->ID, $key = 'utm_term', $single = true );
   		$utm_data['content'] = get_post_meta( $post->ID, $key = 'utm_content', $single = true );
