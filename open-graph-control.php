@@ -105,17 +105,15 @@ Class SimpleOpenGraph {
 		$utm = $this->get_utm_data('twitter', $post);
 		$utm_url = $this->utm_url($utm);
 		$tweet = $this->twitter_data($post->ID);
-		$count_url = get_permalink();
-		$share_url = 'http://twitter.com/share/?via=' . $user . '&counturl=' . $count_url;
+		$url = get_permalink();
+		$share_url = 'http://twitter.com/intent/tweet/';
+		$share_url .= "?url={$url}";
+		$share_url .= "&via={$user}";
 		if ( $tweet['text'] ) {
 			$share_url .= '&text=' . urlencode($tweet['text']);
-		} else {
-			$share_url .= '&text=' . urlencode(the_title_attribute());
 		}
 		if ( $tweet['related'] ) {
 			$share_url .= '&related=' . $tweet['related'];
-		} else {
-			$share_url .= '&related=' . $user;
 		}
 		if ( $tweet['lang'] ) {
 			$share_url .= '&lang=' . $tweet['lang'];
