@@ -15,7 +15,7 @@
  * Plugin Name:	Open Graph Control
  * Plugin URI: https://github.com/gboone/open-graph-control
  * Description: Adds meta tags prepared with facebook open graph data
- * Version: 0.1
+ * Version: 1.0
  * Author: Greg Boone
  * Author URI: http://greg.harmsboone.org
  * Text Domain: open-graph-control
