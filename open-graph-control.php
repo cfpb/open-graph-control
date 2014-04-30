@@ -133,4 +133,3 @@ Class SimpleOpenGraph {
 }
 $p = new \gboone\SimpleOpenGraph();
 add_action( 'plugins_loaded', array($p, 'build'));
-?>
