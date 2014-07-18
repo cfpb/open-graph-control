@@ -81,7 +81,7 @@ Class SimpleOpenGraph {
 			?><meta property="og:title" content="<?php wp_title('-',true,'right'); ?><?php bloginfo('name'); ?>" /><?php
 		}
 		if ( $og['image'] ) {
-			?><meta property="og:image" content="<?php echo urlencode($og['image']); ?>" /> <?php
+			?><meta property="og:image" content="<?php echo $og['image']; ?>" /> <?php
 		} else {
 			?><meta property="og:image" content="<?php bloginfo('template_directory'); ?>/_/img/logo.png" /> <?php
 		}
