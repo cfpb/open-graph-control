@@ -6,23 +6,21 @@
  * post metadata.
  *
  * @package	Open-Graph-Control
- * @author Greg Boone <boone.greg@gmail.com>
+ * @author Greg Boone, CFPB
  * @license Public Domain
- * @link http://greg.harmsboone.org
- * @copyright 2014 Greg Boone
+ * @link https://cfpb.github.io/
  *
  * @wordpress-plugin
  * Plugin Name:	Open Graph Control
- * Plugin URI: https://github.com/gboone/open-graph-control
+ * Plugin URI: https://github.com/cfpb/open-graph-control
  * Description: Adds meta tags prepared with facebook open graph data
- * Version: 1.0
- * Author: Greg Boone
- * Author URI: http://greg.harmsboone.org
+ * Version: 2.0
+ * Author: Greg Boone, CFPB
+ * Author URI: https://cfpb.github.io/
  * Text Domain: open-graph-control
  * License: Public Domain
- * GitHub Plugin URI: https://github.com/gboone/open-graph-control
  */
-namespace gboone;
+namespace CFPB;
 Class SimpleOpenGraph {
 
 	public function get_utm_data($medium = 'web', $post) {
@@ -131,5 +129,5 @@ Class SimpleOpenGraph {
     	add_action( 'wp_enqueue_scripts', array($this, 'open_graph') );
 	}
 }
-$p = new \gboone\SimpleOpenGraph();
+$p = new \CFPB\SimpleOpenGraph();
 add_action( 'plugins_loaded', array($p, 'build'));

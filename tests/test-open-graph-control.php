@@ -20,7 +20,7 @@ class testOpenGraphControl extends PHPUnit_Framework_TestCase {
 				)
 			);
 		// act
-		$actual = \gboone\SimpleOpenGraph::get_utm_data();
+		$actual = \CFPB\SimpleOpenGraph::get_utm_data();
 		// assert
 		$this->assertEquals('web', $actual['medium']);
 		$this->assertEquals('consumerfinance.gov', $actual['source']);
@@ -37,7 +37,7 @@ class testOpenGraphControl extends PHPUnit_Framework_TestCase {
 			);
 		$expected = 'twitter';
 		//act
-		$actual = \gboone\SimpleOpenGraph::get_utm_data('twitter');
+		$actual = \CFPB\SimpleOpenGraph::get_utm_data('twitter');
 		// assert
 		$this->assertEquals($expected, $actual['medium']);
 	}
@@ -51,7 +51,7 @@ class testOpenGraphControl extends PHPUnit_Framework_TestCase {
 		);
 		$expected = '&utm_campaign=string&utm_term=other&utm_content=utm_string';
 		//act
-		$url = \gboone\SimpleOpenGraph::utm_url($utm_data);
+		$url = \CFPB\SimpleOpenGraph::utm_url($utm_data);
 
 		//assert
 		$this->assertEquals($expected, $url);
@@ -68,7 +68,7 @@ class testOpenGraphControl extends PHPUnit_Framework_TestCase {
 		$expected = '';
 
 		// act
-		$url = \gboone\SimpleOpenGraph::utm_url($utm_data);
+		$url = \CFPB\SimpleOpenGraph::utm_url($utm_data);
 
 		// assert
 		$this->assertEquals($expected, $url);
@@ -84,7 +84,7 @@ class testOpenGraphControl extends PHPUnit_Framework_TestCase {
 		$expected = '&utm_campaign=campaign+string&utm_content=something';
 
 		// act
-		$url = \gboone\SimpleOpenGraph::utm_url($utm_data);
+		$url = \CFPB\SimpleOpenGraph::utm_url($utm_data);
 
 		// assert
 		$this->assertEquals($expected, $url);
@@ -102,7 +102,7 @@ class testOpenGraphControl extends PHPUnit_Framework_TestCase {
 		);
 
 		// act
-		$data = \gboone\SimpleOpenGraph::get_og_data($post);
+		$data = \CFPB\SimpleOpenGraph::get_og_data($post);
 		// assert
 		$this->assertEquals($expected, $data);
 	}

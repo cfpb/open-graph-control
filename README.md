@@ -1,5 +1,5 @@
 open-graph-control
-=================
+==================
 
 This is a simple singleton class that allows you to set custom fields on posts that fill in utm, open graph, and twitter parameters that can be wired into custom tweet buttons. This plugin differs from others in that it leaves actual implementation of the tweet button: styling, graphics, etc. to the theme.
 
@@ -11,7 +11,7 @@ Like any WordPress plugin: download, upload to your server, activate.
 Requirements:
 -------------
 
-Tested on WordPress version 3.8.1. No guarantees on versions earlier or newer, though unless WordPress core removes `the_title_attribute`, or the `plugins_loaded` and `wp_enqueue_scripts` action hooks, it should continue working.
+Tested on WordPress version 3.8.3. No guarantees on versions earlier or newer, though unless WordPress core removes `the_title_attribute`, or the `plugins_loaded` and `wp_enqueue_scripts` action hooks, it should continue working.
 
 This plugin uses PHP namespaces and will only work on systems with PHP 5.3 and later. Sorry, 5.2.x users, but you should really just upgrade already.
 
