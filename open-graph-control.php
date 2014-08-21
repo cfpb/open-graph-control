@@ -14,13 +14,13 @@
  * Plugin Name:	Open Graph Control
  * Plugin URI: https://github.com/cfpb/open-graph-control
  * Description: Adds meta tags prepared with facebook open graph data
- * Version: 1.0
+ * Version: 2.0
  * Author: Greg Boone, CFPB
  * Author URI: https://cfpb.github.io/
  * Text Domain: open-graph-control
  * License: Public Domain
  */
-namespace gboone;
+namespace CFPB;
 Class SimpleOpenGraph {
 
 	public function get_utm_data($medium = 'web', $post) {
@@ -129,5 +129,5 @@ Class SimpleOpenGraph {
     	add_action( 'wp_enqueue_scripts', array($this, 'open_graph') );
 	}
 }
-$p = new \gboone\SimpleOpenGraph();
+$p = new \CFPB\SimpleOpenGraph();
 add_action( 'plugins_loaded', array($p, 'build'));
